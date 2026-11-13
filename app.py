@@ -110,6 +110,7 @@ class AssignmentTab(ttk.Frame):
         fs = ttk.Scrollbar(file_frame,command=self.files.yview); self.files.configure(yscrollcommand=fs.set)
         fs.pack(side='right',fill='y'); self.files.pack(fill='both',expand=True)
         self.files.bind('<<TreeviewSelect>>',self.select_file)
+        self.files.bind('<Double-1>',self.open_clicked_file)
         ttk.Label(left,text='Questions',font=('Segoe UI',11,'bold')).pack(anchor='w',pady=(10,0))
         self.questions = ttk.Treeview(left,columns=('q','suggested','final'),show='headings',height=10,selectmode='browse')
         for c,label,w in [('q','Question',75),('suggested','Suggested',80),('final','Final',65)]:
@@ -258,6 +259,15 @@ class AssignmentTab(ttk.Frame):
             messagebox.showinfo('Select SQL first','Highlight a query in the Source text tab, then assign it.'); return
         if self.query.get('1.0','end-1c').strip() and not messagebox.askyesno('Replace extracted SQL?',f'Replace Q{self.number} SQL and clear its final mark?'): return
         replace(self.query,selection); self.score.set(''); self.save_refresh(); self.book.select(0)
+
+    def open_clicked_file(self,event):
+        # Resolve the clicked row instead of trusting a previous selection.
+        item=self.files.identify_row(event.y)
+        if item and self.files.identify_region(event.x,event.y) in ('cell','tree'):
+            self.files.selection_set(item)
+            self.select_file()
+            self.open_original()
+        return 'break'
 
     def open_original(self):
         if not self.sid: return
