@@ -1,0 +1,184 @@
+[
+  {
+    "id": "5",
+    "title": "Assignment 5",
+    "instructions": "Assignment \u2013 Aggregation and Business Reporting (Northwind)\nObjective\nApply aggregation functions, grouping, calculated fields, and subqueries to analyze business data.\n\nInstructions\nUsing the Northwind database, write SQL queries to answer the following questions.\n\nFor each question:\nWrite the SQL query\nRun the query in SQL Server Management Studio (SSMS)\nTake a screenshot of the entire SSMS window (including query and results)\nPaste both your query and the screenshot into a Word document\n\nQuestions\nFind the total number of orders in the database.\nCalculate the average unit price of all products.\nFind the minimum and maximum product prices.\nCalculate the total quantity ordered from the Order Details table.\nFind the total sales amount (UnitPrice \u00d7 Quantity) for all orders.\nShow the total sales amount for each product (grouped by ProductID).\nShow the number of orders placed by each customer.\nFind customers who have placed more than 5 orders (use HAVING).\nShow products whose price is greater than the average product price (use a subquery).\nCalculate the total inventory value for each product (UnitPrice \u00d7 UnitsInStock), and display the product name with the calculated value.\nSubmission Requirements\nSubmit one Word document\nInclude:\nAll SQL queries\nScreenshots of results (full SSMS window)\n\nFile name format:\nAssignment5_YourName\n\nNotes\nUse appropriate aggregation functions (SUM, AVG, COUNT, MIN, MAX)\nUse GROUP BY where required\nUse HAVING for filtering grouped data\nUse subqueries where specified\nUse calculated fields for derived values",
+    "note": "",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "Find the total number of orders in the database.",
+        "answer": "SELECT COUNT(*) AS TotalOrders\nFROM Orders;"
+      },
+      {
+        "number": 2,
+        "prompt": "Calculate the average unit price of all products.",
+        "answer": "SELECT AVG(UnitPrice) AS AvgPrice\nFROM Products;"
+      },
+      {
+        "number": 3,
+        "prompt": "Find the minimum and maximum product prices.",
+        "answer": "SELECT MIN(UnitPrice) AS MinPrice,\n       MAX(UnitPrice) AS MaxPrice\nFROM Products;"
+      },
+      {
+        "number": 4,
+        "prompt": "Calculate the total quantity ordered from the Order Details table.",
+        "answer": "SELECT SUM(Quantity) AS TotalQuantity\nFROM [Order Details];"
+      },
+      {
+        "number": 5,
+        "prompt": "Find the total sales amount (UnitPrice \u00d7 Quantity) for all orders.",
+        "answer": "SELECT SUM(UnitPrice * Quantity) AS TotalSales\nFROM [Order Details];"
+      },
+      {
+        "number": 6,
+        "prompt": "Show the total sales amount for each product (grouped by ProductID).",
+        "answer": "SELECT ProductID,\n       SUM(UnitPrice * Quantity) AS TotalSales\nFROM [Order Details]\nGROUP BY ProductID;"
+      },
+      {
+        "number": 7,
+        "prompt": "Show the number of orders placed by each customer.",
+        "answer": "SELECT CustomerID,\n       COUNT(*) AS OrderCount\nFROM Orders\nGROUP BY CustomerID;"
+      },
+      {
+        "number": 8,
+        "prompt": "Find customers who have placed more than 5 orders (use HAVING).",
+        "answer": "SELECT CustomerID,\n       COUNT(*) AS OrderCount\nFROM Orders\nGROUP BY CustomerID\nHAVING COUNT(*) > 5;"
+      },
+      {
+        "number": 9,
+        "prompt": "Show products whose price is greater than the average product price (use a subquery).",
+        "answer": "SELECT ProductName, UnitPrice\nFROM Products\nWHERE UnitPrice > (\n    SELECT AVG(UnitPrice)\n    FROM Products\n);"
+      },
+      {
+        "number": 10,
+        "prompt": "Calculate the total inventory value for each product (UnitPrice \u00d7 UnitsInStock), and display the product name with the calculated value.",
+        "answer": "SELECT ProductName,\n       UnitPrice * UnitsInStock AS TotalValue\nFROM Products;"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "title": "Assignment 7",
+    "instructions": "Assignment \u2013 JOINs and Business Reporting (Northwind)\nObjective\nUse JOINs to combine data from multiple tables and answer business questions using SQL.\n\nInstructions\nUsing the Northwind database, write SQL queries to answer the following questions.\n\nFor each question:\nWrite the SQL query\nRun the query in SQL Server Management Studio (SSMS)\nTake a screenshot of the entire SSMS window (query + results)\nPaste both your query and screenshot into a Word document\nYou may use the Query Designer tool in SSMS to help build your queries, but you must include the final SQL query in your submission.\n\nQuestions\nDisplay the CompanyName of customers and their OrderDate by joining Customers and Orders. \nDisplay CompanyName and Freight for orders where Freight is greater than 50. \nDisplay CompanyName and OrderDate using a JOIN between Customers and Orders. \nDisplay CompanyName, OrderDate, and ProductName by joining Customers, Orders, Order Details, and Products. \nDisplay ProductName and Quantity ordered for each order. \nDisplay ProductName and the total inventory value (UnitPrice \u00d7 UnitsInStock) for each product. \nShow the total amount spent by each customer (CompanyName). \nFind the total quantity sold for each product where the total quantity is greater than 100. \nDisplay CompanyName and OrderDate for orders placed after January 1, 1997. \nWhich 10 products generate the highest revenue? \nSubmission Requirements\nSubmit one Word document\nInclude:\nAll SQL queries\nScreenshots (full SSMS window)\n\nFile name format:\nAssignment7_YourName\n\nNotes\nUse:\nINNER JOIN\nTable aliases\nGROUP BY\nSUM\nUse calculated fields where needed\nThere may be multiple correct solutions",
+    "note": "",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "Display the CompanyName of customers and their OrderDate by joining Customers and Orders. ",
+        "answer": "SELECT c.CompanyName, o.OrderDate\nFROM Customers c\nINNER JOIN Orders o ON c.CustomerID = o.CustomerID;"
+      },
+      {
+        "number": 2,
+        "prompt": "Display CompanyName and Freight for orders where Freight is greater than 50. ",
+        "answer": "SELECT c.CompanyName, o.Freight\nFROM Customers c\nINNER JOIN Orders o ON c.CustomerID = o.CustomerID\nWHERE o.Freight > 50;"
+      },
+      {
+        "number": 3,
+        "prompt": "Display CompanyName and OrderDate using a JOIN between Customers and Orders. ",
+        "answer": "SELECT Customers.CompanyName, Orders.OrderDate\nFROM Customers\nINNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;"
+      },
+      {
+        "number": 4,
+        "prompt": "Display CompanyName, OrderDate, and ProductName by joining Customers, Orders, Order Details, and Products. ",
+        "answer": "SELECT c.CompanyName, o.OrderDate, p.ProductName\nFROM Customers c\nINNER JOIN Orders o ON c.CustomerID = o.CustomerID\nINNER JOIN [Order Details] od ON o.OrderID = od.OrderID\nINNER JOIN Products p ON od.ProductID = p.ProductID;"
+      },
+      {
+        "number": 5,
+        "prompt": "Display ProductName and Quantity ordered for each order. ",
+        "answer": "SELECT p.ProductName, od.Quantity\nFROM [Order Details] od\nINNER JOIN Products p ON od.ProductID = p.ProductID;"
+      },
+      {
+        "number": 6,
+        "prompt": "Display ProductName and the total inventory value (UnitPrice \u00d7 UnitsInStock) for each product. ",
+        "answer": "SELECT ProductName, UnitPrice * UnitsInStock AS InventoryValue\nFROM Products;"
+      },
+      {
+        "number": 7,
+        "prompt": "Show the total amount spent by each customer (CompanyName). ",
+        "answer": "SELECT c.CompanyName, SUM(od.UnitPrice * od.Quantity) AS TotalSpent\nFROM Customers c\nINNER JOIN Orders o ON c.CustomerID = o.CustomerID\nINNER JOIN [Order Details] od ON o.OrderID = od.OrderID\nGROUP BY c.CompanyName;"
+      },
+      {
+        "number": 8,
+        "prompt": "Find the total quantity sold for each product where the total quantity is greater than 100. ",
+        "answer": "SELECT p.ProductName, SUM(od.Quantity) AS TotalQuantity\nFROM Products p\nINNER JOIN [Order Details] od ON p.ProductID = od.ProductID\nGROUP BY p.ProductName\nHAVING SUM(od.Quantity) > 100;"
+      },
+      {
+        "number": 9,
+        "prompt": "Display CompanyName and OrderDate for orders placed after January 1, 1997. ",
+        "answer": "SELECT c.CompanyName, o.OrderDate\nFROM Customers c\nINNER JOIN Orders o ON c.CustomerID = o.CustomerID\nWHERE o.OrderDate > '1997-01-01';"
+      },
+      {
+        "number": 10,
+        "prompt": "Which 10 products generate the highest revenue? ",
+        "answer": "SELECT TOP 10 p.ProductName, SUM(od.UnitPrice * od.Quantity) AS Revenue\nFROM Products p\nINNER JOIN [Order Details] od ON p.ProductID = od.ProductID\nGROUP BY p.ProductName\nORDER BY Revenue DESC;"
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "title": "Assignment 8",
+    "instructions": "Assignment \u2013 Stored Procedures (Northwind)\nObjective\nCreate stored procedures to perform common database operations using SQL Server.\nInstructions\nUsing the Northwind database, write SQL queries to answer the following questions.\n\nFor each question:\nWrite the SQL query that creates a stored procedure\nRun the query in SQL and execute the stored procedure\nTake a screenshot of the entire SSMS window (execution + results)\nPaste both your query and screenshot into a Word document\n\nQuestions\nCreate a stored procedure that returns all products with their ProductName, UnitPrice, and UnitsInStock. \nCreate a stored procedure that returns all orders for a given customer.\nInput: CustomerID\nOutput: OrderID, OrderDate, Freight \nCreate a stored procedure that returns all products in a given category.\nInput: CategoryID\nOutput: ProductName, UnitPrice \nCreate a stored procedure that updates the UnitPrice of a product.\nInputs: ProductID, NewPrice \nCreate a stored procedure that: \nInserts a new product into the Products table (ProductName, SupplierID, CategoryID, UnitPrice, UnitsInStock)\nThen adds that product to an existing order with OrderID = 11012\nUse the generated ProductID when inserting into Order Details\nInput all required values as parameters\nSubmission Requirements\nSubmit one Word document\nInclude:\nAll SQL queries\nScreenshots (full SSMS window)\n\nFile name format:\nAssignment8_YourName\n\nNotes\nUse:\nCREATE PROCEDURE\nParameters where required\nSELECT, INSERT, UPDATE\nUse variables when needed (e.g., to store a generated ID)\nUse SCOPE_IDENTITY() to retrieve newly created IDs\nThere may be multiple correct solutions",
+    "note": "",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "Create a stored procedure that returns all products with their ProductName, UnitPrice, and UnitsInStock. ",
+        "answer": "CREATE PROCEDURE GetAllProducts\nAS\nBEGIN\n    SET NOCOUNT ON;\n\n    SELECT ProductName, UnitPrice, UnitsInStock\n    FROM Products;\nEND;\nGO"
+      },
+      {
+        "number": 2,
+        "prompt": "Create a stored procedure that returns all orders for a given customer.\nInput: CustomerID\nOutput: OrderID, OrderDate, Freight ",
+        "answer": "CREATE PROCEDURE GetOrdersByCustomer\n    @CustomerID NVARCHAR(5)\nAS\nBEGIN\n    SET NOCOUNT ON;\n\n    SELECT OrderID, OrderDate, Freight\n    FROM Orders\n    WHERE CustomerID = @CustomerID;\nEND;\nGO"
+      },
+      {
+        "number": 3,
+        "prompt": "Create a stored procedure that returns all products in a given category.\nInput: CategoryID\nOutput: ProductName, UnitPrice ",
+        "answer": "CREATE PROCEDURE GetProductsByCategory\n    @CategoryID INT\nAS\nBEGIN\n    SET NOCOUNT ON;\n\n    SELECT ProductName, UnitPrice\n    FROM Products\n    WHERE CategoryID = @CategoryID;\nEND;\nGO"
+      },
+      {
+        "number": 4,
+        "prompt": "Create a stored procedure that updates the UnitPrice of a product.\nInputs: ProductID, NewPrice ",
+        "answer": "CREATE PROCEDURE UpdateProductPrice\n    @ProductID INT,\n    @NewPrice MONEY\nAS\nBEGIN\n    SET NOCOUNT ON;\n\n    UPDATE Products\n    SET UnitPrice = @NewPrice\n    WHERE ProductID = @ProductID;\nEND;\nGO"
+      },
+      {
+        "number": 5,
+        "prompt": "Create a stored procedure that: \nInserts a new product into the Products table (ProductName, SupplierID, CategoryID, UnitPrice, UnitsInStock)\nThen adds that product to an existing order with OrderID = 11012\nUse the generated ProductID when inserting into Order Details\nInput all required values as parameters",
+        "answer": "CREATE PROCEDURE AddProductAndSell\n    @ProductName NVARCHAR(40),\n    @SupplierID INT,\n    @CategoryID INT,\n    @UnitPrice MONEY,\n    @UnitsInStock SMALLINT,\n    @Quantity SMALLINT\nAS\nBEGIN\n    SET NOCOUNT ON;\n\n    DECLARE @ProductID INT;\n\n    -- Insert new product\n    INSERT INTO Products (ProductName, SupplierID, CategoryID, UnitPrice, UnitsInStock)\n    VALUES (@ProductName, @SupplierID, @CategoryID, @UnitPrice, @UnitsInStock);\n\n    -- Get the new ProductID\n    SET @ProductID = SCOPE_IDENTITY();\n\n    -- Insert into Order Details for OrderID 11012\n    INSERT INTO [Order Details] (OrderID, ProductID, UnitPrice, Quantity)\n    VALUES (11012, @ProductID, @UnitPrice, @Quantity);\n\n    -- Show the inserted record\n    SELECT *\n    FROM [Order Details]\n    WHERE OrderID = 11012 AND ProductID = @ProductID;\nEND;\nGO"
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "title": "Assignment 9",
+    "instructions": "Assignment 9 \u2013 SQL Functions\nObjective\nUse built-in SQL functions to transform, analyze, and present data for business purposes.\nInstructions\nUsing the Northwind database, write SQL queries to answer the following questions.\nFor each question:\nWrite the SQL query that creates a stored procedure\nRun the query in SQL and execute the stored procedure\nTake a screenshot of the entire SSMS window (execution + results)\nPaste both your query and screenshot into a Word document\n\nQuestions\nDisplay CompanyName, its uppercase version, and the number of characters in the name. \nDisplay OrderID, OrderDate, and Order Year. Only include orders placed in 1997. \nDisplay ProductName, UnitPrice, and a rounded price (no decimals). Only include products with UnitPrice greater than 20. \nDisplay CustomerID, CompanyName, and Region. Replace NULL values in Region with 'Unknown'. Only include customers from USA. \nDisplay ProductName and UnitPrice. Also show a new column that calculates price after a 10% increase. Sort the results based on the increased price from highest to lowest.\nSubmission Requirements\nSubmit one Word document\nInclude:\nAll SQL queries\nScreenshots (full SSMS window)\nFile name format:\nAssignment9_YourName\nNotes\nUse: \nText functions (UPPER, LEN, etc.) \nDate functions (YEAR, GETDATE if needed) \nMath functions (ROUND) \nNULL handling (IS NULL, ISNULL) \nYou may combine multiple functions in one query \nEnsure your queries run without errors \nThere may be multiple correct solutions\nThere may be multiple correct solutions",
+    "note": "General instructions mention stored procedures, but the questions and supplied key use SELECT queries. Review follows the questions and key.",
+    "questions": [
+      {
+        "number": 1,
+        "prompt": "Display CompanyName, its uppercase version, and the number of characters in the name. ",
+        "answer": "SELECT \n    CompanyName,\n    UPPER(CompanyName) AS CompanyName_Upper,\n    LEN(CompanyName) AS NameLength\nFROM Customers;"
+      },
+      {
+        "number": 2,
+        "prompt": "Display OrderID, OrderDate, and Order Year. Only include orders placed in 1997. ",
+        "answer": "SELECT \n    OrderID,\n    OrderDate,\n    YEAR(OrderDate) AS OrderYear\nFROM Orders\nWHERE YEAR(OrderDate) = 1997;"
+      },
+      {
+        "number": 3,
+        "prompt": "Display ProductName, UnitPrice, and a rounded price (no decimals). Only include products with UnitPrice greater than 20. ",
+        "answer": "-- Only include products with UnitPrice > 20\nSELECT \n    ProductName,\n    UnitPrice,\n    ROUND(UnitPrice, 0) AS RoundedPrice\nFROM Products\nWHERE UnitPrice > 20;"
+      },
+      {
+        "number": 4,
+        "prompt": "Display CustomerID, CompanyName, and Region. Replace NULL values in Region with 'Unknown'. Only include customers from USA. ",
+        "answer": "-- Replace NULL Region values with 'Unknown'\n-- Only include customers from USA\nSELECT \n    CustomerID,\n    CompanyName,\n    ISNULL(Region, 'Unknown') AS Region\nFROM Customers\nWHERE Country = 'USA';"
+      },
+      {
+        "number": 5,
+        "prompt": "Display ProductName and UnitPrice. Also show a new column that calculates price after a 10% increase. Sort the results based on the increased price from highest to lowest.",
+        "answer": "-- Sort by increased price from highest to lowest\nSELECT \n    ProductName,\n    UnitPrice,\n    UnitPrice * 1.10 AS IncreasedPrice\nFROM Products\nORDER BY IncreasedPrice DESC;"
+      }
+    ]
+  }
+]
